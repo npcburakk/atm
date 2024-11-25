@@ -1,0 +1,52 @@
+class ATM:
+    def __init__(self, location, branch, balance):
+        self.location = location
+        self.branch = branch
+        self.balance = balance
+
+    def show(self):
+        """Display ATM location and branch."""
+        print(f"ATM Location: {self.location}")
+        print(f"Branch Name: {self.branch}")
+
+    def withdraw_cash(self, requested_amount):
+        """Handle the withdrawal process."""
+        if requested_amount > self.balance:
+            print("Error: Insufficient funds.")
+            return False
+        elif requested_amount <= 0:
+            print("Error: Invalid amount entered.")
+            return False
+        else:
+            self.balance -= requested_amount
+            print(f"Success! Please collect your cash: ${requested_amount}")
+            print(f"Remaining balance: ${self.balance}")
+            return True
+
+def atm_interface():
+    # Create an ATM instance with initial details
+    atm = ATM(location="Downtown", branch="Main Branch", balance=1000)
+
+    # Show ATM details
+    atm.show()
+
+    # Start interaction for withdrawing cash
+    print("\nWelcome to the ATM Cash Withdrawal System")
+    while True:
+        try:
+            # Prompt user for the withdrawal amount
+            amount = float(input("Enter the amount you wish to withdraw: $"))
+            if atm.withdraw_cash(amount):
+                break
+        except ValueError:
+            print("Error: Please enter a valid numeric value.")
+
+        # Prompt user to try again
+        retry = input("Would you like to try again? (yes/no): ").strip().lower()
+        if retry != 'yes':
+            print("Thank you for using the ATM. Goodbye!")
+            break
+
+# Run the ATM interface
+if __name__ == "__main__":
+    atm_interface()
